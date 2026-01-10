@@ -20,7 +20,12 @@ foreach ($Server in $DnsServers) {
             $DetailedResult = New-Object System.Object
             $DetailedResult | Add-Member -NotePropertyName "Record_Name" -NotePropertyValue $Record
             $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType
-            $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.IPAddress
+            if ($Result.QueryType = "PTR"){
+                $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.NameHost
+            } else {
+                $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.IPAddress
+            }
+            
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
             $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup was Succesful"
         $RecordResult += $DetailedResult
