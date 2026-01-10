@@ -1,5 +1,5 @@
 # Clear the Screen
-cls
+Clear-Host
 
 # List DNS Servers you want to query
 $DnsServers = "8.8.4.4", "8.8.8.8", "1.1.1.1"
@@ -10,7 +10,11 @@ $DnsRecords = "yahoo.com", "msn.com", "google.com"
 #Run the Query
 foreach ($Server in $DnsServers) {
     foreach ($Record in $DnsRecords){
-        $Result =  resolve-dnsname $Record
+        $Result = ""
+        $Result =  resolve-dnsname $Record -Server $Server -DnsOnly
+        $Result | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
+        $RecordResult += $Result
     }
-    $Results += $Result
+    $ServerResults += $RecordResult
 }
+$ServerResults | select Name, DNS_Server, IPAddress, QueryType  | ft -AutoSize
