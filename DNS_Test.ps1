@@ -22,7 +22,7 @@ foreach ($Server in $DnsServers) {
             $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType
             $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.IPAddress
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
-            $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Test"
+            $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup was Succesful"
         $RecordResult += $DetailedResult
        }
        catch {
