@@ -9,7 +9,7 @@ $RecordResult = @()
 $DnsServers = "8.8.4.4", "8.8.8.8", "1.1.1.1"
 
 # List the DNS Records you want to query
-$DnsRecords = "nbcdfw.com", "msn.com", "cbs11.com", "104.69.125.254", "myfakednsrecord.com"
+$DnsRecords = "nbcdfw.com", "msn.com", "cbs11.com", "104.69.125.254", "myfakednsrecord.com", "142.250.114.100", "204.79.197.219"
 
 #Run the Query
 foreach ($Server in $DnsServers) {
@@ -20,10 +20,8 @@ foreach ($Server in $DnsServers) {
             $DetailedResult = New-Object System.Object
             $DetailedResult | Add-Member -NotePropertyName "Record_Name" -NotePropertyValue $Record
             $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType
-            if ($Result.QueryType = "PTR"){
-                $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.NameHost
-            } else {
-                $DetailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue $Result.IPAddress
+            if ($Result.QueryType -eq "PTR"){$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
+            } else{$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.IPAddress
             }
             
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
