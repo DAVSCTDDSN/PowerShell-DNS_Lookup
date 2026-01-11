@@ -23,7 +23,6 @@ foreach ($Server in $DnsServers) {
             if ($Result.QueryType -eq ("PTR" -or "CNAME")){$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
             } else{$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.IPAddress
             }
-            
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
             $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup was Successful"
         $RecordResult += $DetailedResult
