@@ -63,4 +63,5 @@ $coloredData = $RecordResult | ForEach-Object {
 
 # Format the output as a table
 $coloredData | Format-Table -AutoSize
-# $coloredData | ConvertTo-HTML -property "Record_Name", "Type", "Data", "DNS_Server", "Note"
+$coloredData | ConvertTo-HTML -property "Record_Name", "Type", "Data", "DNS_Server", "Note" | Out-File "C:\Users\davsc\OneDrive\Desktop\OutputTest.htm"
+Invoke-Item "C:\Users\davsc\OneDrive\Desktop\OutputTest.htm"
