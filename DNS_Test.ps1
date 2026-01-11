@@ -20,7 +20,8 @@ foreach ($Server in $DnsServers) {
             $DetailedResult = New-Object System.Object
             $DetailedResult | Add-Member -NotePropertyName "Record_Name" -NotePropertyValue $Record
             $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType
-            if ($Result.QueryType -eq ("PTR" -or "CNAME")){$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
+            if ($Result.QueryType -eq "PTR"){$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
+            } elseif ($Result.QueryType -eq "CNAME") {$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
             } else{$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.IPAddress
             }
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
@@ -62,3 +63,4 @@ $coloredData = $RecordResult | ForEach-Object {
 
 # Format the output as a table
 $coloredData | Format-Table -AutoSize
+# $coloredData | ConvertTo-HTML -property "Record_Name", "Type", "Data", "DNS_Server", "Note"
