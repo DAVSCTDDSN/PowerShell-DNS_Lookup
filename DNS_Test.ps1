@@ -25,14 +25,14 @@ foreach ($Server in $DnsServers) {
             }
             
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
-            $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup was Succesful"
+            $DetailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup was Successful"
         $RecordResult += $DetailedResult
        }
        catch {
         $FailedResult = New-Object System.Object
             $FailedResult   | Add-Member -NotePropertyName "Record_Name" -NotePropertyValue $Record
             $FailedResult   | Add-Member -NotePropertyName "Type" -NotePropertyValue "."
-            $FailedResult | Add-Member -NotePropertyName "IP_Address" -NotePropertyValue "."
+            $FailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue "."
             $FailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
             $FailedResult | Add-Member -NotePropertyName "Note" -NotePropertyValue "Lookup Failed"
        $RecordResult += $FailedResult
@@ -41,4 +41,25 @@ foreach ($Server in $DnsServers) {
 
     }
 }
-$RecordResult | Format-Table -AutoSize
+
+#Colorize the Data
+$coloredData = $RecordResult | ForEach-Object {
+    $RecordName = $_.Record_Name
+    $Type = $_.Type
+    $Data = $_.Data
+    $Note = $_.Note
+
+    if ($Note -eq "Lookup Failed") {
+        # Embed Red color code
+        $_.Record_Name = "$($PSStyle.Foreground.Red)$RecordName$($PSStyle.Reset)"
+        $_.Type = "$($PSStyle.Foreground.Red)$Type$($PSStyle.Reset)"
+        $_.Data = "$($PSStyle.Foreground.Red)$Data$($PSStyle.Reset)"
+        $_.Note = "$($PSStyle.Foreground.Red)$Note$($PSStyle.Reset)"
+    } else {
+
+    }
+    $_
+}
+
+# Format the output as a table
+$coloredData | Format-Table -AutoSize
