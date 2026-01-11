@@ -19,9 +19,9 @@ foreach ($Server in $DnsServers) {
         $Result =  resolve-dnsname $Record -Server $Server -DnsOnly -ErrorAction Stop
             $DetailedResult = New-Object System.Object
             $DetailedResult | Add-Member -NotePropertyName "Record_Name" -NotePropertyValue $Record
-            $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType
+            $DetailedResult | Add-Member -NotePropertyName "Type" -NotePropertyValue $Result.QueryType[0]
             if ($Result.QueryType -eq "PTR"){$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
-            } elseif ($Result.QueryType -eq "CNAME") {$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.NameHost
+            } elseif ($Result.QueryType -eq "CNAME") {$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.IPAddress
             } else{$DetailedResult | Add-Member -NotePropertyName "Data" -NotePropertyValue $Result.IPAddress
             }
             $DetailedResult | Add-Member -NotePropertyName "DNS_Server" -NotePropertyValue $Server
