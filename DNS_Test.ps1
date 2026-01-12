@@ -43,7 +43,9 @@ foreach ($Server in $DnsServers) {
 }
 
 #Create HTML Report
-$RecordResult | ConvertTo-HTML -Title "DNS Report" -property "Record_Name", "Type", "Data", "DNS_Server", "Note" -PreContent "<style> table {border-collapse: collapse;} th, td {border: 1px solid black;} th {background-color: DarkMagenta; color: White;} tr {background-color: #F9F9F9} </style>" | Out-File "C:\Users\davsc\OneDrive\Desktop\OutputTest.htm"
+$RecordResult | ConvertTo-HTML -Title "DNS Report" -property "Record_Name", "Type", "Data", "DNS_Server", "Note" `
+    -PreContent "<style> table {border-collapse: collapse;} th, td {border: 1px solid black;} th {background-color: DarkMagenta; color: White;} tr {background-color: #F9F9F9} </style>" |
+    Out-File "C:\Users\davsc\OneDrive\Desktop\OutputTest.htm"
 Invoke-Item "C:\Users\davsc\OneDrive\Desktop\OutputTest.htm"
 
 #Colorize the Data
